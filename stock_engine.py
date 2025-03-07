@@ -18,7 +18,6 @@ class StockEngine:
         self.buy_orders = OrderLList()
         self.sell_orders = OrderLList()
 
-
     def add_order(self, order_type, ticker, quantity, price):
         stock_order = Order(order_type, ticker, quantity, price)
         with self.lock:
@@ -26,11 +25,10 @@ class StockEngine:
                 self.buy_orders.add_order(stock_order)
             else:
                 self.sell_orders.add_order(stock_order)
-        
 
     def match_order(self):
         with self.lock:
-            while self.buy_orders.head() and self.sell_order.head():
+            while self.buy_orders.head() and self.sell_orders.head():
                 buy_ord = self.buy_orders.head()
                 sell_ord = self.sell_orders.head()
 
@@ -82,9 +80,9 @@ def random_simulation(stock_engine, num_transactions=100):
     for _ in range(num_transactions):
         order_type = random.choice(["Buy", "Sell"])
         ticker = random.randint(0, NUM_TICKERS - 1)
-        quantity = random.randit(1, 100)
+        quantity = random.randint(1, 100)
         price = random.randint(1, 500)
-        stock_engine.addOrder(order_type, ticker, quantity, price)
+        stock_engine.add_order(order_type, ticker, quantity, price)
         time.sleep(random.uniform(0.1, 1))
 
 if __name__ == "__main__":
